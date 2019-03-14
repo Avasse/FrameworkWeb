@@ -76,7 +76,7 @@
     new Vue({
       el: '#app',
       data: () => ({
-        tasks: [
+        defaultTasks: [
           {
             done: false,
             text: 'Oranges',
@@ -124,6 +124,11 @@
         task: ""
       }),
 
+      created () {
+        const initTasks = localStorage.getItem('tasks')
+        this.tasks = initTasks ? JSON.parse(initTasks) : this.defaultTasks
+      },
+
       computed: {
         completedTasks () {
           return this.tasks.filter(task => task.done).length
@@ -150,6 +155,7 @@
         create () {
           this.tasks.push({ done: false, text: this.task, price: 0 })
           this.task = null
+          localStorage.setItem('tasks', JSON.stringify(this.tasks))
         },
 
         deleteTask (id) {
