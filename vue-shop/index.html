@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+<body>
+  <div id="app">
+    <v-app>
+      <v-content>
+        <v-container style="max-width: 500px">
+          <v-text-field v-model="task" label="Ajouter une tache" solo @keydown.enter="create">
+            <v-icon v-if="task" @click="create">add_circle</v-icon>
+          </v-text-field>
+
+          <v-list v-if="task">
+            <v-list-tile v-for="(item, i) in filteredItems" :key="i" @click="task = item.text">
+              <v-list-tile-content>
+                <v-list-tile-title>{{ item.text }}</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list>
+
+          <h2 class="display-1 success--text pl-3"> {{ "Tasks: " + tasks.length }}</h2>
+
+          <v-divider class="mt-3"></v-divider>
+          <v-layout my-1 align-center>
+            <strong class="mx-3 info--text text--darken-3"> Restantes: {{ remainingTasks }}</strong>
+
+            <v-divider vertical></v-divider>
+
+            <strong class="mx-3 black--text">Complétées: {{ completedTasks }}</strong>
+
+            <v-divider vertical></v-divider>
+
+            <v-spacer></v-spacer>
+          </v-layout>
+
+          <v-divider class="mb-3"></v-divider>
+
+          <v-card v-if="tasks.length > 0">
+            <div v-for="(task, i) in tasks">
+              <v-divider v-if="i !== 0" :key="`${i}-divider`"></v-divider>
+              <v-list-tile :key="`${i}-tile`">
+                <v-list-tile-action style="width:25%">
+                  <v-checkbox v-model="task.done" color="info darken-5" :label="task.text"/>
+                </v-list-tile-action>
+                <v-spacer></v-spacer>
+                <v-text-field
+                  :disabled="!task.done"
+                  label="Regular"
+                  type="number"
+                  single-line
+                  suffix="€"
+                  v-model="task.price">
+                </v-text-field>
+                <v-spacer></v-spacer>
+                <v-icon color="red" @click="deleteTask(i)">highlight_off</v-icon>
+              </v-list-tile>
+            </div>
+          </v-card>
+          <v-divider class="mt-3"></v-divider>
+          <strong class="mx-3 info--text text--darken-3">Budjet: 50€</strong>
+          <strong class="mx-3 info--text text--darken-3">Prix total: {{ totalPrice + '€' }}</strong>
+          <strong v-if="totalPrice > 50" class="mx-3 info--text text--darken-3"> Budjet dépassé</strong>
+        </v-container>
+      </v-content>
+    </v-app>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: () => ({
+        tasks: [
+          {
+            done: false,
+            text: 'Oranges',
+            price: 0
+          },
+          {
+            done: false,
+            text: 'Pommes',
+            price: 0
+          },
+          {
+            done: false,
+            text: 'Poires',
+            price: 0
+          },
+          {
+            done: false,
+            text: 'Chocolat',
+            price: 0
+          }
+        ],
+
+        items: [
+          {
+            done: false,
+            text: 'Fruits',
+            price: 0
+          },
+          {
+            done: false,
+            text: 'Caramel',
+            price: 0
+          } ,
+          {
+            done: false,
+            text: 'Patates',
+            price: 0
+          } ,
+          {
+            done: false,
+            text: 'Salade',
+            price: 0
+          }
+        ],
+        task: ""
+      }),
+
+      computed: {
+        completedTasks () {
+          return this.tasks.filter(task => task.done).length
+        },
+
+        progress () {
+          return this.completedTasks / this.tasks.length * 100
+        },
+
+        remainingTasks () {
+          return this.tasks.length - this.completedTasks
+        },
+
+        totalPrice () {
+          return this.tasks.reduce((acc, task) => acc + parseInt(task.price), 0)
+        },
+
+        filteredItems () {
+          return this.items.filter(item => item.text.toLowerCase().includes(this.task.toLowerCase()))
+        }
+      },
+
+      methods: {
+        create () {
+          this.tasks.push({ done: false, text: this.task, price: 0 })
+          this.task = null
+        },
+
+        deleteTask (id) {
+          this.tasks.splice(id, 1)
+        }
+      }
+    })
+  </script>
+</body>
+</html>
