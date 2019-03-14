@@ -13,7 +13,7 @@
 
           <shop-autocomplete :task="task" :items="filteredItems" @task-change="editTask" @enter="create"></shop-autocomplete>
 
-          <h2 class="display-1 success--text"> {{ "Tasks: " + tasks.length }}</h2>
+          <h2 class="display-1 success--text"> {{ "Tâches: " + tasks.length }}</h2>
 
           <v-divider class="mt-3"></v-divider>
           <shop-info :remaining="remainingTasks" :completed="completedTasks" ></shop-info>
@@ -22,11 +22,11 @@
           <shop-list :tasks="tasks" @delete-task="deleteTask" @edit-task-price="editTaskPrice"></shop-list>
           <v-divider class="mt-3"></v-divider>
 
-          <strong class="mx-3 info--text text--darken-3">Budjet: {{ budget + '€' }}</strong>
+          <strong class="mx-3 info--text text--darken-3">Budget: {{ budget + '€' }}</strong>
           <strong class="mx-3 info--text text--darken-3">Prix total: {{ totalPrice + '€' }}</strong>
           <strong v-if="totalPrice > budget" class="mx-3 red--text text--darken-3">
             <v-icon class="mx-3 red--text text--darken-3">warning</v-icon>
-            Budjet dépassé
+            Budget dépassé
           </strong>
 
           <v-divider class="mt-3 mb-3"></v-divider>
