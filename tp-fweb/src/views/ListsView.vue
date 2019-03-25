@@ -1,12 +1,17 @@
 <template>
   <div class="lists">
-    <v-text-field @keydown.enter="insertList" color="pink" v-model="listName">
+    <v-text-field
+      @keydown.enter="addList"
+      class="mb-4"
+      color="pink"
+      v-model="listName">
       <template v-slot:label>
         Pourquoi pas créer une nouvelle <strong>liste ? </strong>
         <v-icon style="vertical-align: middle">playlist_add</v-icon>
       </template>
     </v-text-field>
-    <lists :lists="lists" @delete="deleteList"/>
+
+    <lists :lists="lists" @delete="deleteList" @set-favorite="updateFavorite"/>
   </div>
 </template>
 
@@ -20,31 +25,38 @@
     data () {
       return {
         listName: '',
-        lists   : []
+        lists   : [],
+        search  : ''
       }
     },
 
     created () {
-      const LSLists = JSON.parse(localStorage.getItem('lists'))
-      this.lists    = LSLists ? LSLists : defaultLists
+      try {
+        const LSLists = JSON.parse(localStorage.getItem('lists'))
+        this.lists    = LSLists && LSLists.length > 0 ? LSLists : defaultLists
+        setLS('lists', this.lists)
+      } catch (e) {
+        console.error(e)
+        this.lists = defaultLists
+      }
     },
 
     methods: {
-      insertList () {
+      addList () {
         this.lists.push({ name: this.listName, budget: 0, favorite: false, items: [] })
-        setLS('lists', this.list)
+        setLS('lists', this.lists)
+        this.listName = ''
       },
 
       deleteList ({ id }) {
         this.lists.splice(id, 1)
-        setLS('lists', this.list)
+        setLS('lists', this.lists)
+      },
+
+      updateFavorite ({ id, state }) {
+        this.lists[id].favorite = state
+        setLS('lists', this.lists)
       }
     }
   }
 </script>
-
-<style scoped lang="scss">
-  .v-list {
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-  }
-</style>

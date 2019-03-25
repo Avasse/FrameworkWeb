@@ -2,6 +2,29 @@ export const setLS = (key, item) => {
   localStorage.setItem(key, JSON.stringify(item))
 }
 
+export const autocompleteItems = [
+  {
+    done : false,
+    name : 'Fruits',
+    price: 0
+  },
+  {
+    done : false,
+    name : 'Caramel',
+    price: 0
+  },
+  {
+    done : false,
+    name : 'Patates',
+    price: 0
+  },
+  {
+    done : false,
+    name : 'Salade',
+    price: 0
+  }
+]
+
 export const defaultLists = [
   {
     name    : 'Fruits',

@@ -20,7 +20,7 @@
       return {
         tabs: [
           { id: 0, name: 'Home', route: { name: 'home' }, icon: 'home' },
-          { id: 1, name: 'Mes Listes', route: { name: 'lists' }, icon: 'list_alt' },
+          { id: 1, name: 'Mes Listes', route: { name: 'listsView' }, icon: 'list_alt' },
           { id: 2, name: 'A propos', route: { name: 'about' }, icon: 'fingerprint' }
         ]
       }

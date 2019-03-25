@@ -1,8 +1,9 @@
-import About  from '@/views/About.vue'
-import Home   from '@/views/Home.vue'
-import Lists  from '@/views/ListsView.vue'
-import Vue    from 'vue'
-import Router from 'vue-router'
+import About       from '@/views/About'
+import Home        from '@/views/Home'
+import ListDetails from '@/views/ListDetails'
+import ListsView   from '@/views/ListsView'
+import Vue         from 'vue'
+import Router      from 'vue-router'
 
 Vue.use(Router)
 
@@ -14,9 +15,15 @@ export default new Router({
       component: Home
     },
     {
-      path     : '/lists',
-      name     : 'lists',
-      component: Lists
+      path     : '/lists/',
+      name     : 'listsView',
+      component: ListsView
+    },
+    {
+      path     : '/lists/:listId',
+      name     : 'listDetails',
+      component: ListDetails,
+      props    : true
     },
     {
       path     : '/about',

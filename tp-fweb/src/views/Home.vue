@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <router-link :to="{name: 'lists'}">
+    <router-link :to="{name: 'listsView'}">
       Regarde ta liste ici
     </router-link>
   </div>
