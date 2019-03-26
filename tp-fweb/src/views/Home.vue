@@ -169,16 +169,15 @@
 <script>
 
   import { defaultLists, setLS } from '@/utils/utils'
+  import { mapGetters }          from 'vuex'
 
   export default {
-    name: 'Home',
-    data () {
-      return {
-        lists: null
-      }
-    },
-
+    name    : 'Home',
     computed: {
+      ...mapGetters({
+        lastUpdatedListId: 'lists/lastUpdatedListId'
+      }),
+
       getParalax1 () {
         return require('@/assets/hero.jpeg')
       },
@@ -188,23 +187,9 @@
       }
     },
 
-    created () {
-      try {
-        const LSLists = JSON.parse(localStorage.getItem('lists'))
-        this.lists    = LSLists && LSLists.length > 0 ? LSLists : defaultLists
-        setLS('lists', this.lists)
-      } catch (e) {
-        console.error(e)
-        this.lists = defaultLists
-      }
-    },
-
     methods: {
       goToLastUpdated () {
-        const lastUpdatedList = this.lists.reduce((last, list) => list.updated_at > last.updated_at ? list : last)
-        const lastUpdatedId   = this.lists.findIndex(list => list.name === lastUpdatedList.name)
-
-        this.$router.push({ name: 'listDetails', params: { listId: lastUpdatedId } })
+        this.$router.push({ name: 'listDetails', params: { listId: this.lastUpdatedListId } })
       }
     }
   }

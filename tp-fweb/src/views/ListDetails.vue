@@ -2,13 +2,13 @@
   <div class="list-details" v-if="hasItems">
     <list-autocomplete
       :items="filteredItems"
-      :task="newItem"
+      :task="newItemName"
       @enter="addItem"
-      @task-change="editNewItem"/>
+      @task-change="editNewItemName"/>
 
     <h2 class="display-1 black--text mt-3">
       <v-btn icon ripple>
-        <v-icon @click="$router.push({name: 'listsView'})" color="grey lighten-1">keyboard_arrow_left</v-icon>
+        <v-icon @click="$router.push({name: 'dashboard'})" color="grey lighten-1">keyboard_arrow_left</v-icon>
       </v-btn>
       {{ 'Liste ' + currentList.name + ' | Tâches: ' + currentList.items.length }}
     </h2>
@@ -62,6 +62,7 @@
   import ListInfos                    from '@/components/listDetails/ListInfos'
   import ListItems                    from '@/components/listDetails/ListItems'
   import { autocompleteItems, setLS } from '@/utils/utils'
+  import { mapGetters, mapMutations } from 'vuex'
 
   export default {
     name      : 'ListDetails',
@@ -74,11 +75,14 @@
     },
 
     data: () => ({
-      lists  : null,
-      newItem: ''
+      newItemName: ''
     }),
 
     computed: {
+      ...mapGetters({
+        lists: 'lists/lists'
+      }),
+
       currentList () {
         return this.lists ? this.lists[this.listId] : null
       },
@@ -100,7 +104,7 @@
       },
 
       filteredItems () {
-        return autocompleteItems.filter(item => item.name.toLowerCase().includes(this.newItem.toLowerCase()))
+        return autocompleteItems.filter(item => item.name.toLowerCase().includes(this.newItemName.toLowerCase()))
       },
 
       hasItems () {
@@ -108,47 +112,38 @@
       }
     },
 
-    created () {
-      try {
-        this.lists = JSON.parse(localStorage.getItem('lists'))
-      } catch (e) {
-        console.error(e)
-        this.$router.push({ name: 'listsView' })
-      }
-    },
-
     methods: {
+      ...mapMutations({
+        addListItem        : 'lists/ADD_LIST_ITEM',
+        deleteListItem     : 'lists/DELETE_LIST_ITEM',
+        updateListItemPrice: 'lists/UPDATE_LIST_ITEM_PRICE',
+        updateListItemDone : 'lists/UPDATE_LIST_ITEM_DONE',
+        updateListBudget   : 'lists/UPDATE_LIST_BUDGET'
+      }),
+
       addItem () {
-        this.lists[this.listId].items.push({ done: false, name: this.newItem, price: 0 })
-        this.newItem                       = ''
-        this.lists[this.listId].updated_at = Date.now()
-        setLS('lists', this.lists)
+        this.addListItem({ listId: this.listId, name: this.newItemName })
+        this.newItemName = ''
       },
 
       deleteItem (id) {
-        this.lists[this.listId].items.splice(id, 1)
-        setLS('lists', this.lists)
+        this.deleteListItem({ listId: this.listId, itemId: id })
       },
 
-      editNewItem (newItem) {
-        this.newItem = newItem
+      editNewItemName (newItemName) {
+        this.newItemName = newItemName
       },
 
       editItemPrice ({ id, value }) {
-        this.lists[this.listId].items[id].price = parseInt(value)
-        this.lists[this.listId].updated_at      = Date.now()
-        setLS('lists', this.lists)
+        this.updateListItemPrice({ listId: this.listId, itemId: id, price: value })
       },
 
-      editItemDone ({ id }) {
-        this.lists[this.listId].updated_at = Date.now()
-        setLS('lists', this.lists)
+      editItemDone ({ id, done }) {
+        this.updateListItemDone({ listId: this.listId, itemId: id, done })
       },
 
       editListBudget (budget) {
-        this.lists[this.listId].budget     = parseInt(budget)
-        this.lists[this.listId].updated_at = Date.now()
-        setLS('lists', this.lists)
+        this.updateListBudget({ listId: this.listId, budget })
       }
     }
   }

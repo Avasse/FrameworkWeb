@@ -1,7 +1,7 @@
 import About       from '@/views/About'
+import Dashboard   from '@/views/Dashboard'
 import Home        from '@/views/Home'
 import ListDetails from '@/views/ListDetails'
-import ListsView   from '@/views/ListsView'
 import Vue         from 'vue'
 import Router      from 'vue-router'
 
@@ -16,8 +16,8 @@ export default new Router({
     },
     {
       path     : '/lists/',
-      name     : 'listsView',
-      component: ListsView
+      name     : 'dashboard',
+      component: Dashboard
     },
     {
       path     : '/lists/:listId',
