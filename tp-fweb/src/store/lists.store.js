@@ -1,4 +1,5 @@
 import { defaultLists, setLS } from '@/utils/utils'
+import Vue                     from 'vue'
 
 const state = {
   lists: []
@@ -10,6 +11,8 @@ const mutations = {
   },
   
   ADD_LIST (state, name) {
+    const listExists = state.lists.some(list => list.name.toLowerCase() === name.toLowerCase())
+    if (listExists) return Vue.toasted.error('La liste existe déjà')
     state.lists.push({ name, budget: 0, favorite: false, items: [], updated_at: Date.now() })
   },
   
@@ -23,6 +26,8 @@ const mutations = {
   },
   
   ADD_LIST_ITEM (state, { listId, name }) {
+    const itemExists = state.lists[listId].items.some(item => item.name.toLowerCase() === name.toLowerCase())
+    if (itemExists) return Vue.toasted.error('L\'item existe déjà')
     state.lists[listId].items.push({ done: false, name, price: 0 })
     state.lists[listId].updated_at = Date.now()
   },
