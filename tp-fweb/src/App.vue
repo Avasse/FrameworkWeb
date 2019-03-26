@@ -1,8 +1,8 @@
 <template>
-  <v-app>
+  <v-app light>
     <app-nav/>
     <v-content>
-      <v-container style="max-width: 700px">
+      <v-container :style="containerStyle">
         <router-view/>
       </v-container>
     </v-content>
@@ -14,6 +14,18 @@
 
   export default {
     name      : 'App',
-    components: { AppNav }
+    components: { AppNav },
+    computed  : {
+      homePage () {
+        return this.$route.name === 'home'
+      },
+
+      containerStyle () {
+        return {
+          maxWidth: this.homePage ? '100vw' : '700px',
+          padding : this.homePage ? '0px' : '16px'
+        }
+      }
+    }
   }
 </script>

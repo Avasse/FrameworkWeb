@@ -27,8 +27,8 @@ export const autocompleteItems = [
 
 export const defaultLists = [
   {
-    name    : 'Fruits',
-    items   : [
+    name      : 'Fruits',
+    items     : [
       {
         name : 'Banane',
         price: 0
@@ -46,12 +46,13 @@ export const defaultLists = [
         price: 0
       }
     ],
-    budget  : 50,
-    favorite: true
+    budget    : 50,
+    favorite  : true,
+    updated_at: Date.now()
   },
   {
-    name    : 'Féculents',
-    items   : [
+    name      : 'Féculents',
+    items     : [
       {
         name : 'Pommes de terre',
         price: 0
@@ -69,12 +70,13 @@ export const defaultLists = [
         price: 0
       }
     ],
-    budget  : 50,
-    favorite: false
+    budget    : 50,
+    favorite  : false,
+    updated_at: Date.now()
   },
   {
-    name    : 'Boissons',
-    items   : [
+    name      : 'Boissons',
+    items     : [
       {
         name : 'Coca',
         price: 0
@@ -92,12 +94,13 @@ export const defaultLists = [
         price: 0
       }
     ],
-    budget  : 50,
-    favorite: false
+    budget    : 50,
+    favorite  : false,
+    updated_at: Date.now()
   },
   {
-    name    : 'Alcools',
-    items   : [
+    name      : 'Alcools',
+    items     : [
       {
         name : 'Whisky',
         price: 0
@@ -115,12 +118,13 @@ export const defaultLists = [
         price: 0
       }
     ],
-    budget  : 50,
-    favorite: true
+    budget    : 50,
+    favorite  : true,
+    updated_at: Date.now()
   },
   {
-    name    : 'Bonbons',
-    items   : [
+    name      : 'Bonbons',
+    items     : [
       {
         name : 'Luttis',
         price: 0
@@ -138,12 +142,13 @@ export const defaultLists = [
         price: 0
       }
     ],
-    budget  : 50,
-    favorite: false
+    budget    : 50,
+    favorite  : false,
+    updated_at: Date.now()
   },
   {
-    name    : 'Petit-dejeuner',
-    items   : [
+    name      : 'Petit-dejeuner',
+    items     : [
       {
         name : 'Nutella',
         price: 0
@@ -161,7 +166,8 @@ export const defaultLists = [
         price: 0
       }
     ],
-    budget  : 50,
-    favorite: false
+    budget    : 50,
+    favorite  : false,
+    updated_at: Date.now()
   }
 ]

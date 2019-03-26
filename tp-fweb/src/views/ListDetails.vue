@@ -120,7 +120,8 @@
     methods: {
       addItem () {
         this.lists[this.listId].items.push({ done: false, name: this.newItem, price: 0 })
-        this.newItem = ''
+        this.newItem                       = ''
+        this.lists[this.listId].updated_at = Date.now()
         setLS('lists', this.lists)
       },
 
@@ -135,15 +136,18 @@
 
       editItemPrice ({ id, value }) {
         this.lists[this.listId].items[id].price = parseInt(value)
+        this.lists[this.listId].updated_at      = Date.now()
         setLS('lists', this.lists)
       },
 
-      editItemDone () {
+      editItemDone ({ id }) {
+        this.lists[this.listId].updated_at = Date.now()
         setLS('lists', this.lists)
       },
 
       editListBudget (budget) {
-        this.lists[this.listId].budget = parseInt(budget)
+        this.lists[this.listId].budget     = parseInt(budget)
+        this.lists[this.listId].updated_at = Date.now()
         setLS('lists', this.lists)
       }
     }

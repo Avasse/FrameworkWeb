@@ -43,7 +43,7 @@
 
     methods: {
       addList () {
-        this.lists.push({ name: this.listName, budget: 0, favorite: false, items: [] })
+        this.lists.push({ name: this.listName, budget: 0, favorite: false, items: [], updated_at: Date.now() })
         setLS('lists', this.lists)
         this.listName = ''
       },
@@ -54,7 +54,8 @@
       },
 
       updateFavorite ({ id, state }) {
-        this.lists[id].favorite = state
+        this.lists[id].favorite   = state
+        this.lists[id].updated_at = Date.now()
         setLS('lists', this.lists)
       }
     }

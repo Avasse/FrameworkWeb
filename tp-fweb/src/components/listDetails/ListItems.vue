@@ -7,7 +7,7 @@
         <v-list-tile-action style="width:25%">
           <v-checkbox
             :label="item.name"
-            @change="$emit('edit-done')"
+            @change="$emit('edit-done', {id})"
             color="pink"
             v-model="item.done"/>
         </v-list-tile-action>
